@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>معرض الصور والفيديوهات - مسجد الإمام علي بن أبي طالب</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        :root { --gold: #d4af37; --dark-blue: #0a192f; --glass: rgba(255, 255, 255, 0.1); }
+        
+        body {
+            font-family: 'Cairo', sans-serif; margin: 0; padding: 0; color: white;
+            background: linear-gradient(rgba(10, 25, 47, 0.85), rgba(10, 25, 47, 0.95)), 
+                        url('photo2.jpeg') center/cover fixed;
+            min-height: 100vh;
+        }
+
+        header { text-align: center; padding: 80px 15px 40px; }
+        header h1 { font-family: 'Amiri', serif; color: var(--gold); font-size: 2.5rem; margin: 0; }
+        header p { color: #ccc; margin-top: 10px; }
+
+        /* زر العودة */
+        .back-btn {
+            position: fixed; top: 20px; right: 20px; font-size: 18px;
+            color: var(--gold); background: var(--glass); padding: 10px 20px;
+            border-radius: 10px; text-decoration: none; border: 1px solid var(--gold);
+            backdrop-filter: blur(5px); z-index: 1000; display: flex; align-items: center; gap: 10px;
+            transition: 0.3s;
+        }
+        .back-btn:hover { background: var(--gold); color: var(--dark-blue); }
+
+        /* عناوين الأقسام */
+        .section-title {
+            text-align: center;
+            color: var(--gold);
+            font-family: 'Amiri', serif;
+            font-size: 2rem;
+            margin: 40px 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+        .section-title::before, .section-title::after {
+            content: "";
+            height: 1px;
+            width: 50px;
+            background: var(--gold);
+        }
+
+        /* شبكة الصور والفيديوهات */
+        .gallery-container, .video-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .gallery-item, .video-item {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            aspect-ratio: 4 / 3;
+            cursor: pointer;
+            transition: 0.3s ease;
+            background: black;
+        }
+
+        .gallery-item img, .video-item video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: 0.5s ease;
+        }
+
+        .gallery-item:hover, .video-item:hover {
+            border-color: var(--gold);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+        }
+
+        .video-item i.fa-play {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3rem;
+            color: rgba(212, 175, 55, 0.8);
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .image-caption {
+            position: absolute; bottom: 0; left: 0; right: 0;
+            background: rgba(0,0,0,0.7); color: var(--gold);
+            padding: 10px; text-align: center; font-size: 0.9rem;
+            z-index: 3;
+        }
+
+        /* نافذة العرض الكبيرة */
+        .lightbox {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9); z-index: 2000; justify-content: center; align-items: center;
+        }
+        .lightbox img, .lightbox video { max-width: 90%; max-height: 80%; border: 2px solid var(--gold); border-radius: 10px; }
+        .lightbox .close-lightbox { position: absolute; top: 30px; left: 30px; color: white; font-size: 40px; cursor: pointer; }
+
+        footer { text-align: center; padding: 40px; font-size: 0.8rem; color: #aaa; }
+
+        @media (max-width: 600px) {
+            header h1 { font-size: 1.8rem; }
+            .gallery-container, .video-container { grid-template-columns: 1fr 1fr; gap: 10px; padding: 10px; }
+            .back-btn { padding: 8px 15px; font-size: 14px; }
+        }
+    </style>
+</head>
+<body>
+
+    <a href="index.html" class="back-btn"><i class="fas fa-arrow-right"></i> الرئيسية</a>
+
+    <header>
+        <h1>معرض المسجد</h1>
+        <p>مسجد الإمام علي بن أبي طالب</p>
+    </header>
+
+    <h2 class="section-title"><i class="fas fa-camera"></i> معرض الصور</h2>
+    <div class="gallery-container">
+        <div class="gallery-item" onclick="openLightbox('Alemam.jpeg', 'img')">
+            <img src="Alemam.jpeg" alt="إمام المسجد">
+            <div class="image-caption">إمام المسجد</div>
+        </div>
+        <div class="gallery-item" onclick="openLightbox('photo2.jpeg', 'img')">
+            <img src="photo2.jpeg" alt="داخل المسجد">
+            <div class="image-caption">داخل المسجد</div>
+        </div>
+        <div class="gallery-item" onclick="openLightbox('photo1.jpeg', 'img')">
+            <img src="photo1.jpeg" alt="واجهة المسجد">
+            <div class="image-caption">واجهة المسجد</div>
+        </div>
+        <div class="gallery-item" onclick="openLightbox('photo3.jpeg', 'img')">
+            <img src="photo3.jpeg" alt="المحراب">
+            <div class="image-caption"> المحراب والمنبر</div>
+        </div>
+        <div class="gallery-item" onclick="openLightbox('p2.jpeg', 'img')">
+            <img src="p2.jpeg" alt="فرسان الفجر">
+            <div class="image-caption">فرسان الفجر</div>
+        </div>
+        <div class="gallery-item" onclick="openLightbox('p1.jpeg', 'img')">
+            <img src="p1.jpeg" alt="أطفال المسجد">
+            <div class="image-caption">أطفال المسجد</div>
+        </div>
+        <div class="gallery-item" onclick="openLightbox('photo4.jpeg', 'img')">
+            <img src="photo4.jpeg" alt="تكريم فرسان الفجر">
+            <div class="image-caption">تكريم فرسان الفجر</div>
+        </div>
+        <div class="gallery-item" onclick="openLightbox('photo5.jpeg', 'img')">
+            <img src="photo5.jpeg" alt="من تكريم فرسان الفجر">
+            <div class="image-caption"> تكريم فرسان الفجر</div>
+        </div>
+        <div class="gallery-item" onclick="openLightbox('photo6.jpeg', 'img')">
+            <img src="photo6.jpeg" alt="من تكريم فرسان الفجر">
+            <div class="image-caption">من تكريم فرسان الفجر</div>
+        </div>
+        <div class="gallery-item" onclick="openLightbox('photo7.jpeg', 'img')">
+            <img src="photo7.jpeg" alt="من تكريم فرسان الفجر">
+            <div class="image-caption">من تكريم فرسان الفجر</div>
+        </div>
+    </div>
+
+    <h2 class="section-title"><i class="fas fa-video"></i> مكتبة المرئيات</h2>
+    <div class="video-container">
+        <div class="video-item" onclick="openLightbox('video2.mp4', 'video')">
+            <video src="video2.mp4" muted></video>
+            <i class="fas fa-play"></i>
+            <div class="image-caption">صلاة القيام</div>
+        </div>
+
+          <div class="video-item" onclick="openLightbox('video1.mp4', 'video')">
+            <video src="video1.mp4" muted></video>
+            <i class="fas fa-play"></i>
+            <div class="image-caption">خطبة الجمعة</div>
+        </div>
+    </div>
+
+    <div id="lightbox" class="lightbox" onclick="closeLightbox()">
+        <span class="close-lightbox" onclick="closeLightbox()">&times;</span>
+        <div id="lightbox-content" onclick="event.stopPropagation()" style="width: 100%; display: flex; justify-content: center;">
+            </div>
+    </div>
+
+    <footer>
+        <p>© 2026 مسجد الإمام علي بن أبي طالب</p>
+    </footer>
+
+    <script>
+        function openLightbox(src, type) {
+            const lb = document.getElementById('lightbox');
+            const content = document.getElementById('lightbox-content');
+            
+            if (type === 'img') {
+                content.innerHTML = `<img src="${src}" style="max-width: 90%; max-height: 80%; border: 2px solid var(--gold); border-radius: 10px;">`;
+            } else if (type === 'video') {
+                content.innerHTML = `<video src="${src}" controls autoplay style="max-width: 90%; max-height: 80%; border: 2px solid var(--gold); border-radius: 10px;"></video>`;
+            }
+            
+            lb.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            const lb = document.getElementById('lightbox');
+            const content = document.getElementById('lightbox-content');
+            lb.style.display = 'none';
+            content.innerHTML = ''; 
+            document.body.style.overflow = 'auto';
+        }
+    </script>
+
+</body>
+</html>

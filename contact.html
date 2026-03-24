@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تواصل معنا - مسجد الإمام علي بن أبي طالب</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Amiri:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        :root { 
+            --gold: #d4af37; 
+            --dark-blue: #0a192f; 
+            --glass: rgba(255, 255, 255, 0.1);
+            --whatsapp: #25d366;
+            --facebook: #1877f2;
+            --telegram: #0088cc;
+            --email: #ea4335;
+        }
+        
+        body {
+            font-family: 'Cairo', sans-serif; margin: 0; padding: 0; color: white;
+            background: linear-gradient(rgba(10, 25, 47, 0.9), rgba(10, 25, 47, 0.95)), 
+                        url('photo2.jpeg') center/cover fixed;
+            min-height: 100vh; display: flex; flex-direction: column;
+        }
+
+        /* زر العودة */
+        .back-btn {
+            position: fixed; top: 20px; right: 20px; font-size: 18px;
+            color: var(--gold); background: var(--glass); padding: 10px 20px;
+            border-radius: 10px; text-decoration: none; border: 1px solid var(--gold);
+            backdrop-filter: blur(5px); z-index: 1000; display: flex; align-items: center; gap: 10px;
+            transition: 0.3s;
+        }
+        .back-btn:hover { background: var(--gold); color: var(--dark-blue); }
+
+        header { text-align: center; padding: 100px 20px 30px; }
+        header h1 { font-family: 'Amiri', serif; color: var(--gold); font-size: 2.5rem; margin: 0; }
+        header p { color: #ccc; margin-top: 10px; }
+
+        .contact-container {
+            max-width: 500px; margin: 0 auto; padding: 20px; width: 90%;
+        }
+
+        .contact-card {
+            background: var(--glass);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .contact-link {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px 20px;
+            margin-bottom: 15px;
+            border-radius: 15px;
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            transition: 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .contact-link i { font-size: 1.5rem; width: 30px; text-align: center; }
+
+        /* ألوان الروابط */
+        .whatsapp { background: rgba(37, 211, 102, 0.15); border-color: var(--whatsapp); }
+        .whatsapp i { color: var(--whatsapp); }
+        .whatsapp:hover { background: var(--whatsapp); color: #fff; }
+
+        .facebook { background: rgba(24, 119, 242, 0.15); border-color: var(--facebook); }
+        .facebook i { color: var(--facebook); }
+        .facebook:hover { background: var(--facebook); color: #fff; }
+
+        .telegram { background: rgba(0, 136, 204, 0.15); border-color: var(--telegram); }
+        .telegram i { color: var(--telegram); }
+        .telegram:hover { background: var(--telegram); color: #fff; }
+
+        .email { background: rgba(234, 67, 53, 0.15); border-color: var(--email); }
+        .email i { color: var(--email); }
+        .email:hover { background: var(--email); color: #fff; }
+
+        /* زر المشاركة الجديد */
+        .share-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 15px;
+            margin-top: 20px;
+            background: linear-gradient(45deg, var(--gold), #f3d26a);
+            color: var(--dark-blue);
+            border: none;
+            border-radius: 15px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+            font-family: 'Cairo', sans-serif;
+        }
+        .share-btn:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(212, 175, 55, 0.5); }
+        .share-btn:active { transform: scale(0.98); }
+
+        .location-info {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #aaa;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 20px;
+        }
+
+        footer { text-align: center; padding: 20px; margin-top: auto; font-size: 0.8rem; color: #666; }
+    </style>
+</head>
+<body>
+
+    <a href="index.html" class="back-btn"><i class="fas fa-arrow-right"></i> الرئيسية</a>
+
+    <header>
+        <h1>تواصل معنا</h1>
+        <p>نحن نسعد باستفساراتكم ومقترحاتكم دائماً</p>
+    </header>
+
+    <div class="contact-container">
+        <div class="contact-card">
+            
+            <a href="https://wa.me/201099104915" class="contact-link whatsapp" target="_blank">
+                <i class="fab fa-whatsapp"></i>
+                <span>واتساب</span>
+            </a>
+
+            <a href="https://t.me/bcgdn" class="contact-link telegram" target="_blank">
+                <i class="fab fa-telegram-plane"></i>
+                <span>قناة التليجرام</span>
+            </a>
+
+            <a href="https://www.facebook.com/share/17AT8HRyEb/" class="contact-link facebook" target="_blank">
+                <i class="fab fa-facebook-f"></i>
+                <span>صفحة الفيسبوك</span>
+            </a>
+
+            <a href="mailto:alemamali841@gmail.com" class="contact-link email">
+                <i class="far fa-envelope"></i>
+                <span>البريد الإلكتروني</span>
+            </a>
+
+            <button class="share-btn" onclick="shareSite()">
+                <i class="fas fa-share-alt"></i> انشر تؤجر (مشاركة الموقع)
+            </button>
+
+            <div style="margin-top: 25px; border-radius: 15px; overflow: hidden; border: 1px solid var(--gold); height: 200px;">
+              <iframe 
+                src="https://www.google.com/maps?q=25.33877436272861, 32.58395738893175&output=embed" width="100%" 
+                height="100%" 
+                style="border:0;" 
+                allowfullscreen="" 
+                loading="lazy">
+               </iframe>
+            </div>
+            <p style="text-align: center; font-size: 0.7rem; color: #777; margin-top: 5px;">* الخريطة تقريبية لموقع المسجد</p>
+
+            <div class="location-info">
+                <i class="fas fa-map-marker-alt"></i> العنوان: الدير - إسنا - الأقصر<br>
+                بجوار ( خيمة العبور )
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        © 2026 مسجد الإمام علي بن أبي طالب
+    </footer>
+
+    <script>
+        function shareSite() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'مسجد الإمام علي بن أبي طالب',
+                    text: 'تابع مواقيت الصلاة، الأذكار والكثير عبر الموقع الرسمي لمسجد الإمام علي بن أبي طالب بالدير.',
+                    url: window.location.origin + '/index.html'
+                }).catch((error) => console.log('خطأ في المشاركة', error));
+            } else {
+                alert("انسخ رابط الموقع وشاركه مع أحبابك: " + window.location.origin + '/index.html');
+            }
+        }
+    </script>
+
+</body>
+</html>

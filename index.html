@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>مسجد الإمام علي بن أبي طالب</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        :root { --gold: #d4af37; --dark-blue: #0a192f; --glass: rgba(255, 255, 255, 0.1); --transition: 0.3s ease; }
+        
+        body {
+            font-family: 'Cairo', sans-serif; margin: 0; padding: 0; color: white;
+            /* تم تحديث رابط الصورة هنا */
+            background: linear-gradient(rgba(10, 25, 47, 0.85), rgba(10, 25, 47, 0.95)), 
+                        url('photo2.jpeg') center/cover fixed;
+            min-height: 100vh; overflow-x: hidden;
+        }
+
+        /* القائمة الجانبية (Sidebar) */
+        .menu-btn {
+            position: fixed; top: 20px; right: 20px; font-size: 24px;
+            color: var(--gold); background: var(--glass); width: 45px; height: 45px;
+            border-radius: 10px; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; z-index: 3000; border: 1px solid var(--gold); backdrop-filter: blur(5px);
+        }
+
+        .side-menu {
+            position: fixed; top: 0; right: -280px; width: 280px; height: 100%;
+            background: var(--dark-blue); z-index: 4000; padding-top: 60px;
+            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); border-left: 2px solid var(--gold);
+        }
+        .side-menu.open { right: 0; }
+        .menu-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: none; z-index: 3500; }
+        
+        .side-menu a {
+            display: flex; align-items: center; gap: 15px; padding: 18px 25px;
+            color: white; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .side-menu a i { color: var(--gold); width: 20px; }
+
+        /* الأذكار (Modal) */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 5000; padding: 20px; box-sizing: border-box; overflow-y: auto; }
+        .modal-content { background: #fefefe; color: #333; padding: 25px; border-radius: 25px; text-align: center; max-width: 500px; margin: 20px auto; position: relative; }
+        .zekr-card { background: #fff; margin: 12px 0; padding: 18px; border-radius: 15px; border-bottom: 4px solid var(--gold); box-shadow: 0 4px 6px rgba(0,0,0,0.05); cursor: pointer; transition: 0.2s; }
+        .zekr-card:active { transform: scale(0.97); background: #f9f9f9; }
+        
+        /* مواقيت الصلاة والعداد */
+        header { text-align: center; padding: 80px 15px 20px; }
+        header h1 { font-family: 'Amiri', serif; color: var(--gold); font-size: 2.2rem; margin: 0; }
+        
+        #next-prayer-container { text-align: center; margin: 10px auto; padding: 20px; background: rgba(212, 175, 55, 0.1); border-radius: 20px; max-width: 380px; border: 1px solid var(--gold); }
+        #countdown-timer { font-size: 2.2rem; font-weight: bold; font-family: monospace; letter-spacing: 2px; }
+
+        .prayer-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 15px; max-width: 600px; margin: 0 auto; }
+        .p-box { background: var(--glass); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: 12px; padding: 12px; text-align: center; backdrop-filter: blur(8px); }
+        .p-box.active { border: 1px solid var(--gold); background: rgba(214, 175, 55, 0.3); }
+        .p-name { color: var(--gold); font-size: 0.85rem; font-weight: bold; }
+
+        #stop-azan-btn { background: #ff4444; color: white; border: none; padding: 8px 15px; border-radius: 20px; margin-top: 10px; cursor: pointer; display: none; }
+        .wa-float { position: fixed; bottom: 25px; left: 25px; background: #25d366; width: 60px; height: 60px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 30px; color: white; z-index: 1000; text-decoration: none; }
+        
+        /* تصميم جدول الدروس */
+.lessons-section {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 0 15px;
+}
+.lessons-title {
+    text-align: center;
+    font-family: 'Amiri', serif;
+    color: var(--gold);
+    font-size: 2rem;
+    margin-bottom: 25px;
+}
+.lessons-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+}
+.lesson-card {
+    background: var(--glass);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    transition: 0.3s;
+}
+.lesson-card:hover {
+    border-color: var(--gold);
+    background: rgba(212, 175, 55, 0.15);
+    transform: translateY(-5px);
+}
+.day-name {
+    color: var(--gold);
+    font-weight: bold;
+    font-size: 1.2rem;
+    display: block;
+    margin-bottom: 10px;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+    padding-bottom: 5px;
+}
+.lesson-topic {
+    font-size: 1rem;
+    color: #fff;
+    margin-bottom: 5px;
+}
+.lesson-time {
+    font-size: 0.85rem;
+    color: #ccc;
+    display: block;
+}
+
+        footer { text-align: center; padding: 40px; font-size: 0.8rem; color: #aaa; }
+    </style>
+</head>
+<body>
+
+    <audio id="azan-audio" src="https://www.islamcan.com/common/azan/azan2.mp3" preload="auto"></audio>
+
+    <div class="menu-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
+
+    <div class="menu-overlay" id="overlay" onclick="toggleMenu()"></div>
+    <div class="side-menu" id="sideMenu">
+        <a href="#" onclick="toggleMenu()"><i class="fas fa-home"></i> الرئيسية</a>
+        <a href="#" onclick="toggleMenu(); openModal();"><i class="fas fa-book-open"></i> الأذكار والتسابيح</a>
+        <a href="https://www.facebook.com/share/17AT8HRyEb/" target="_blank"><i class="fab fa-facebook"></i> فيسبوك المسجد</a>
+        <a href="gallery.html"><i class="fas fa-images"></i> معرض المسجد</a>
+        <a href="virtues.html"><i class="fas fa-heart"></i> فضل المسجد</a>
+        <a href="contact.html"><i class="fas fa-phone-alt"></i> تواصل معنا</a>
+    </div>
+
+    <header>
+        <h1>مسجد الإمام علي بن أبي طالب</h1>
+        <p>صرحٌ إيماني ومنارةٌ للعلم</p>
+        <p id="date-ar" style="color: var(--gold); font-weight: bold; margin-top: 10px;"></p>
+    </header>
+
+    <div id="next-prayer-container">
+        <div style="font-size: 0.9rem; color: var(--gold);">الوقت المتبقي لأذان <span id="next-prayer-name" style="color:white; font-weight:bold;">...</span></div>
+        <div id="countdown-timer">00:00:00</div>
+        <button onclick="stopAzan()" id="stop-azan-btn">إيقاف صوت الأذان</button>
+    </div>
+
+    <div class="prayer-grid">
+        <div class="p-box" id="f-box"><div class="p-name">الفجر</div><div id="f">--:--</div></div>
+        <div class="p-box" id="d-box"><div class="p-name">الظهر</div><div id="d">--:--</div></div>
+        <div class="p-box" id="a-box"><div class="p-name">العصر</div><div id="a">--:--</div></div>
+        <div class="p-box" id="m-box"><div class="p-name">المغرب</div><div id="m">--:--</div></div>
+        <div class="p-box" id="i-box"><div class="p-name">العشاء</div><div id="i">--:--</div></div>
+        <div class="p-box" ><div class="p-name">الجمعة</div><div>12:30</div></div>
+    </div>
+
+    <section class="lessons-section">
+    <h2 class="lessons-title"><i class="fas fa-mosque"></i> جدول الدروس الأسبوعي</h2>
+    <div class="lessons-grid">
+        <div class="lesson-card">
+            <span class="day-name">الأحد</span>
+            <div class="lesson-topic">درس السيرة النبوية</div>
+            <span class="lesson-time">بين المغرب والعشاء</span>
+        </div>
+
+        <div class="lesson-card">
+            <span class="day-name">الثلاثاء</span>
+            <div class="lesson-topic">مقرأة القرآن الكريم</div>
+            <span class="lesson-time">بعد صلاة العصر</span>
+        </div>
+
+        <div class="lesson-card">
+            <span class="day-name">الخميس</span>
+            <div class="lesson-topic">خاطرة إيمانية وتزكية</div>
+            <span class="lesson-time">بعد صلاة العشاء</span>
+        </div>
+
+        <div class="lesson-card">
+            <span class="day-name">الجمعة</span>
+            <div class="lesson-topic">خطبة الجمعة والدرس الرئيسي</div>
+            <span class="lesson-time">وقت صلاة الظهر</span>
+        </div>
+    </div>
+</section>
+
+    <div id="azkar-modal" class="modal">
+        <div class="modal-content">
+            <h2 style="font-family: 'Amiri'; color: var(--dark-blue);">حصن المسلم</h2>
+            <p style="font-size: 0.8rem; color: #666; margin-bottom: 20px;">انقر على الذكر للتسبيح</p>
+            
+            <div class="zekr-card" onclick="count(this)">سبحان الله وبحمده <br> <span class="counter" style="font-weight:bold; color:var(--gold);">0</span> / 100</div>
+            <div class="zekr-card" onclick="count(this)">أستغفر الله وأتوب إليه <br> <span class="counter" style="font-weight:bold; color:var(--gold);">0</span> / 100</div>
+            <div class="zekr-card" onclick="count(this)">اللهم صلِّ وسلم على نبينا محمد <br> <span class="counter" style="font-weight:bold; color:var(--gold);">0</span> / 10</div>
+            
+            <h3 style="font-family: 'Amiri'; color: var(--dark-blue); border-top: 1px solid #eee; padding-top: 15px;">أذكار بعد الصلاة</h3>
+            
+            <div class="zekr-card" onclick="count(this)">أستغفر الله<br> <span class="counter" style="font-weight:bold; color:var(--gold);">0</span> / 3</div>
+            <div class="zekr-card">اللهم أنت السلام ومنك السلام تباركت يا ذا الجلال والإكرام</div>
+            <div class="zekr-card" onclick="count(this)">سبحان الله <br> <span class="counter" style="font-weight:bold; color:var(--gold);">0</span> / 33</div>
+            <div class="zekr-card" onclick="count(this)">الحمد لله <br> <span class="counter" style="font-weight:bold; color:var(--gold);">0</span> / 33</div>
+            <div class="zekr-card" onclick="count(this)">الله أكبر<br> <span class="counter" style="font-weight:bold; color:var(--gold);">0</span> / 33</div>
+            <div class="zekr-card" onclick="count(this)">لا إلهَ إلاّ اللّهُ وَحْـدَهُ لا شريكَ لهُ، لهُ الملكُ ولهُ الحَمْد، وهُوَ على كُلّ شَيءٍ قَـدير <br> <span class="counter" style="font-weight:bold; color:var(--gold);">0</span> / 1</div>
+            <div class="zekr-card" style="font-size: 0.9rem;">«اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ لَّهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ ۗ مَن ذَا الَّذِي يَشْفَعُ عِندَهُ إِلَّا بِإِذْنِهِ ۚ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۖ وَلَا يُحِيطُونَ بِشَيْءٍ مِّنْ عِلْمِهِ إِلَّا بِمَا شَاءَ ۚ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ ۖ وَلَا يَئُودُهُ حِفْظُهُمَا ۚ وَهُوَ الْعَلِيُّ الْعَظِيمُ»</div>
+            <div class="zekr-card">سورة الإخلاص والمعوذتين</div>
+            <div class="zekr-card">اللَّهُمَّ أَعِنِّي عَلَى ذِكْرِكَ وَشُكْرِكَ وَحُسْنِ عِبَادَتِكَ</div>
+            <button onclick="closeModal()" style="background:#444; color:white; border:none; padding:15px; width:100%; border-radius:15px; margin-top:20px; cursor:pointer; font-weight:bold;">إغلاق</button>
+        </div>
+    </div>
+
+    <a href="https://wa.me/201099104915" class="wa-float" target="_blank"><i class="fab fa-whatsapp"></i></a>
+
+    <footer><p>© 2026 مسجد الإمام علي بن أبي طالب</p></footer>
+
+    <script>
+        document.getElementById('date-ar').innerText = new Intl.DateTimeFormat('ar-SA-u-ca-islamic', {day:'numeric', month:'long', year:'numeric'}).format(new Date());
+
+        function toggleMenu() {
+            const m = document.getElementById('sideMenu');
+            const o = document.getElementById('overlay');
+            m.classList.toggle('open');
+            o.style.display = m.classList.contains('open') ? 'block' : 'none';
+        }
+
+        function openModal() { document.getElementById('azkar-modal').style.display = 'block'; }
+        function closeModal() { document.getElementById('azkar-modal').style.display = 'none'; }
+        
+        function count(el) {
+            let v = el.querySelector('.counter');
+            if(v) v.innerText = parseInt(v.innerText) + 1;
+        }
+
+        let prayerTimes = {};
+        async function loadPrayers() {
+            try {
+                const res = await fetch(`https://api.aladhan.com/v1/timings?latitude=25.2934&longitude=32.5563&method=5`);
+                const data = await res.json();
+                prayerTimes = data.data.timings;
+                document.getElementById('f').innerText = prayerTimes.Fajr;
+                document.getElementById('d').innerText = prayerTimes.Dhuhr;
+                document.getElementById('a').innerText = prayerTimes.Asr;
+                document.getElementById('m').innerText = prayerTimes.Maghrib;
+                document.getElementById('i').innerText = prayerTimes.Isha;
+                startCountdown();
+            } catch (e) { console.error(e); }
+        }
+
+        function startCountdown() {
+            const names = { Fajr: "الفجر", Dhuhr: "الظهر", Asr: "العصر", Maghrib: "المغرب", Isha: "العشاء" };
+            setInterval(() => {
+                const now = new Date();
+                let nextP = null, nextT = null;
+                const ps = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
+                for (let p of ps) {
+                    const [h, m] = prayerTimes[p].split(':');
+                    let d = new Date(); d.setHours(h, m, 0);
+                    if (d > now) { nextP = p; nextT = d; break; }
+                }
+                if (!nextP) {
+                    nextP = 'Fajr'; const [h, m] = prayerTimes.Fajr.split(':');
+                    nextT = new Date(); nextT.setDate(nextT.getDate() + 1); nextT.setHours(h, m, 0);
+                }
+                const diff = nextT - now;
+                if(diff <= 1000 && diff > 0) playAzan();
+                const hrs = Math.floor(diff / 3600000), mins = Math.floor((diff % 3600000) / 60000), secs = Math.floor((diff % 60000) / 1000);
+                document.getElementById('next-prayer-name').innerText = names[nextP];
+                document.getElementById('countdown-timer').innerText = `${String(hrs).padStart(2,'0')}:${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}`;
+                document.querySelectorAll('.p-box').forEach(b => b.classList.remove('active'));
+                const box = document.getElementById(nextP.toLowerCase().charAt(0) + "-box");
+                if(box) box.classList.add('active');
+
+                if (now.getHours() === 0 && now.getMinutes() === 0 && now.getSeconds() === 0) {loadPrayers();}
+            }, 1000);
+        }
+
+        function playAzan() {
+            const a = document.getElementById('azan-audio');
+            a.play().catch(e => console.log("Blocked"));
+            document.getElementById('stop-azan-btn').style.display = 'inline-block';
+        }
+        
+        function stopAzan() {
+            const a = document.getElementById('azan-audio');
+            a.pause(); a.currentTime = 0;
+            document.getElementById('stop-azan-btn').style.display = 'none';
+        }
+
+        window.onload = loadPrayers;
+    </script>
+</body>
+</html>
